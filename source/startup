@@ -2,7 +2,8 @@
 # Startup script for steam dedicated server.
 # REMEMBER TO DROP Privileges for steam (su steam -c '').
 
-CUSTOM=/data/custom_server
+## Passed via deploy.yaml
+#CUSTOM=/data/custom_server
 
 set -u -e
 echo '--------------------------------------'
@@ -13,7 +14,6 @@ groupmod -o -g ${PGID} steam
 usermod -o -u ${PUID} steam
 mkdir -p ${SERVER_DIR}
 chown steam:steam -R /data ${SERVER_DIR}
-chmod 0700 /data/custom_server
 echo "PUID=$(id -u steam)"
 echo "PGID=$(id -g steam)"
 
@@ -35,7 +35,7 @@ if [ ${UPDATE_SERVER} -eq 1 ]; then
   echo "Updating app ${STEAM_APP_ID} ..."
   su steam -c "steamcmd \
     +@sSteamCmdForcePlatformType ${PLATFORM} \
-    +login anonymous \
+    +login ${STEAM_UNAME} ${STEAM_PW}  \
     +force_install_dir ${SERVER_DIR} \
     +app_update ${STEAM_APP_ID} \
     ${STEAM_APP_EXTRAS} \
