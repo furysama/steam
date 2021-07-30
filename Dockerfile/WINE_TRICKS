@@ -4,4 +4,4 @@ apt-get install --yes --install-recommends \
   p7zip && \
 # Add winetricks as an additional resource if needed for servers.
 wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -O /usr/bin/winetricks && \
-chmod a+x /usr/bin/winetricks && \
+chmod a+x /usr/bin/winetricks

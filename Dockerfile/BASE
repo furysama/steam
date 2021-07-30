@@ -17,8 +17,6 @@ ENV SERVER_DIR=/data/server \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-COPY source /docker
-
 RUN export LANG=en_US.UTF-8 && \
     export LANGUAGE=en_US.UTF-8 && \
     export LC_ALL=en_US.UTF-8 && \

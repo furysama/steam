@@ -24,6 +24,4 @@ echo "\nexport PATH=\$PATH:/steam/.steam/steamcmd/linux32:/steam/.steam/steamcmd
 echo 'Updating wine, ignore any errors ...' && \
 su - steam -c 'wineboot --update' /dev/null 2>&1 && \
 echo 'Wine update completed.' && \
-mkdir -p /data && \
-chown -R steam:steam ${STEAM} /data /docker && \
-chmod 0755 /docker/* && \
+chown -R steam:steam ${STEAM}

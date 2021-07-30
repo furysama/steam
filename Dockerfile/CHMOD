@@ -1,0 +1,4 @@
+copy source /docker
+RUN mkdir -p /data && \
+chown -R steam:steam /data /docker && \
+chmod 0755 /docker/* && \

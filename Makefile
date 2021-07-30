@@ -30,6 +30,7 @@ stable: clean
 	@cat ${D_DIR}/WINE_TRICKS >> ${STAGING_DIR}/Dockerfile
 	@cat ${D_DIR}/INSTALL_STEAM >> ${STAGING_DIR}/Dockerfile
 	@cat ${D_DIR}/STEAM_SERVICE >> ${STAGING_DIR}/Dockerfile
+	@cat ${D_DIR}/CHMOD >> ${STAGING_DIR}/Dockerfile
 	@cat ${D_DIR}/SUPERVISORD >> ${STAGING_DIR}/Dockerfile
 	@cat ${D_DIR}/CLEANUP >> ${STAGING_DIR}/Dockerfile
 	@cat ${D_DIR}/WORKDIR >> ${STAGING_DIR}/Dockerfile
