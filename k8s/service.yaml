@@ -3,14 +3,17 @@ kind: Service
 metadata:
   name: last-oasis
 spec:
-  type: LoadBalancer
-  loadBalancerIp: 35.209.20.79
+  type: NodePort
   selector:
     app: last-oasis
   ports:
-  - protocol: TCP
+  - protocol: UDP
     port: 31337
     targetPort: 31337
-  - protocol: TCP
-    port: 27015
-    targetPort: 27015
+    nodePort: 31337
+    name: "last-oasis"
+  - protocol: UDP
+    port: 31338
+    targetPort: 31338
+    nodePort: 31338
+    name: "steam"

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: last-oasis-pv-0
+  labels:
+    volume: last-oasis-server-disk
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 15Gi
+  storageClassName: standard
+  gcePersistentDisk:
+    pdName: last-oasis-pv-0
+    fsType: ext4

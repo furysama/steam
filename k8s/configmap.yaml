@@ -11,9 +11,9 @@ data:
 
     function shutdown() {
       echo 'Shutting down server ...'
-      if [ "$(pgrep -n Conan)" != '' ]; then
+      if [ "$(pgrep -n Mist)" != '' ]; then
         echo "Sending SIGINT to Conan server (max ${PROCESS_WAIT_TIME} secs) ..."
-        kill -SIGINT `pgrep -n Conan`
+        kill -SIGINT `pgrep -n Mist`
         sleep ${PROCESS_WAIT_TIME}
       fi
       if [ "$(pgrep wine)" != '' ]; then
@@ -26,11 +26,13 @@ data:
     trap shutdown SIGINT SIGKILL SIGTERM
 
     function start_server() {
-      su - steam -c "xvfb-run --auto-servernum wine64 ${SERVER_DIR}/LastOasis - Dedicated Server/MistServer.exe -log -force_steamclient_link -messaging -NoLiveServer -EnableCheats -backendapiurloverride="backend.last-oasis.com" -identifier=${SERVER_IDENTIFIER} -port=${SERVER_PORT} -CustomerKey=${CUSTOMER_KEY} -ProviderKey=${HOSTING_KEY} -slots=10 -QueryPort=27015 -OverrideConnectionAddress=${SERVER_IP}"
+      export SERVER_IP=$(wget -qO-  --header="Metadata-Flavor: Google" metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
+      echo "903950" > ${SERVER_DIR}/Mist/Binaries/Linux/steam_appid.txt
+      su - steam -c "${SERVER_DIR}/MistServer.sh -log -force_steamclient_link -messaging -NoLiveServer -EnableCheats -backendapiurloverride="backend.last-oasis.com" -identifier=${SERVER_IDENTIFIER} -port=${SERVER_PORT} -CustomerKey=${CUSTOMER_KEY} -ProviderKey=${HOSTING_KEY} -slots=10 -QueryPort=${QUERY_PORT} -OverrideConnectionAddress=${SERVER_IP}"
     }
 
     function watch_server() {
-      if ps aux | grep [C]onanSandboxServer > /dev/null; then
+      if ps aux | grep [M]istServer-Linux-Shipping > /dev/null; then
         echo 'Server is running ...'
       else
         echo 'Starting server ...'
