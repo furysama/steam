@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dunkelheim
+  labels:
+    app: last-oasis
+spec:
+  replicas: 1
+  serviceName: "last-oasis"
+  selector:
+    matchLabels:
+      app: last-oasis
+  template:
+    metadata:
+      labels:
+        app: last-oasis
+        realm: dunkelheim
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: realm
+                operator: In
+                values: ["dunkelheim"]
+            topologyKey: kubernetes.io/hostname    
+      containers:
+      - name: last-oasis
+        image: gcr.io/maximum-security-horny-jail/steam-cmd:ubntu2004
+        ports:
+        - containerPort: 27015
+        - containerPort: 31337
+        volumeMounts:
+         - mountPath: /data
+           name: server-disk
+         - mountPath: /script
+           name: custom-server
+        env:
+        - name: CUSTOM
+          value: "/script/custom_server.sh"
+        - name: PUID
+          value: "50500"
+        - name: PGID
+          value: "50500"
+        - name: UPDATE_OS
+          value: "1"
+        - name: UPDATE_STEAM
+          value: "1"
+        - name: UPDATE_SERVER
+          value: "1"
+        - name: PLATFORM
+          value: "linux"
+        - name: STEAM_APP_ID
+          value: "920720"
+        - name: TZ
+          value: "America/Los_Angeles"
+        - name: QUERY_PORT
+          value: "31338"
+        - name: SERVER_PORT
+          value: "31337"
+        - name: SERVER_IDENTIFIER
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: CUSTOMER_KEY
+          valueFrom:
+            secretKeyRef:
+             name: steam-pw
+             key: providerkey
+        - name: HOSTING_KEY
+          valueFrom:
+            secretKeyRef:
+              name: steam-pw
+              key: serverkey
+        - name: STEAM_UNAME
+          value: "furysama_dedicated"
+        - name: STEAM_PW
+          valueFrom:
+            secretKeyRef:
+              name: steam-pw
+              key: password
+      volumes:
+      - name: custom-server
+        configMap: 
+          name: custom-server
+          defaultMode: 0755
+  volumeClaimTemplates:
+  - metadata:        
+      name: server-disk
+    spec:  
+      storageClassName: "standard-rwo"
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 15Gi
