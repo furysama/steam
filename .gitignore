@@ -1,0 +1,5 @@
+secret.yaml
+\.*\.swp
+k8s/kustomization/*.yaml
+k8s/kustomization/base
+k8s/kustomization/series*
