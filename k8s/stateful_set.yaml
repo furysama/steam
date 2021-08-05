@@ -67,12 +67,12 @@ spec:
           valueFrom:
             secretKeyRef:
              name: steam-pw
-             key: providerkey
+             key: customer_key
         - name: HOSTING_KEY
           valueFrom:
             secretKeyRef:
               name: steam-pw
-              key: serverkey
+              key: self_hosting_key
         - name: STEAM_UNAME
           value: "furysama_dedicated"
         - name: STEAM_PW

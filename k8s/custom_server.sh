@@ -9,7 +9,7 @@ WATCHDOG_TIME=300
 function shutdown() {
   echo 'Shutting down server ...'
   if [ "$(pgrep -n Mist)" != '' ]; then
-    echo "Sending SIGINT to Conan server (max ${PROCESS_WAIT_TIME} secs) ..."
+    echo "Sending SIGINT to LO server (max ${PROCESS_WAIT_TIME} secs) ..."
     kill -SIGINT `pgrep -n Mist`
     sleep ${PROCESS_WAIT_TIME}
   fi
