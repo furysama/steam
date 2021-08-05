@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  dunkelheim-$SERIES
+spec:
+  template:
+    metadata:
+      labels:
+        series: $SERIES
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: series
+                  operator: In
+                  values: ["${SERIES}"]
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: last-oasis
+        ports:
+        - containerPort: $SERVER_PORT
+        - containerPort: $QUERY_PORT
+        env:
+        - name: SERVER_PORT
+          value: "${SERVER_PORT}"
+        - name: QUERY_PORT
+          value: "${QUERY_PORT}"

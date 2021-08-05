@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dunkelheim-$SERIES
+spec:
+  type: NodePort
+  selector:
+    app: last-oasis
+    realm: dunkelheim
+    series: $SERIES
+  ports:
+  - protocol: UDP
+    port: $SERVER_PORT
+    targetPort: $SERVER_PORT
+    nodePort: $SERVER_PORT
+    name: "last-oasis-$SERIES"
+  - protocol: TCP
+    port: $QUERY_PORT
+    targetPort: $QUERY_PORT
+    nodePort: $QUERY_PORT
+    name: "steam-tcp-$SERIES"
+  - protocol: UDP
+    port: $QUERY_PORT
+    targetPort: $QUERY_PORT
+    nodePort: $QUERY_PORT
+    name: "steam-udp-$SERIES"

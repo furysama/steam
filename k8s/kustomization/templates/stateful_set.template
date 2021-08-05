@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: dunkelheim
+  name: dunkelheim-$SERIES
   labels:
     app: last-oasis
 spec:
-  replicas: 1
+  replicas: $NUM_NODES
   serviceName: "last-oasis"
   selector:
     matchLabels:
@@ -16,21 +16,9 @@ spec:
         app: last-oasis
         realm: dunkelheim
     spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: realm
-                operator: In
-                values: ["dunkelheim"]
-            topologyKey: kubernetes.io/hostname    
       containers:
       - name: last-oasis
         image: gcr.io/maximum-security-horny-jail/steam-cmd:ubntu2004
-        ports:
-        - containerPort: 27015
-        - containerPort: 31337
         volumeMounts:
          - mountPath: /data
            name: server-disk
