@@ -4,6 +4,8 @@ replicas=1
 
 NUM_NODES=2
 
+MODE=server
+
 while getopts ":r:n:" flag
 do
 	case "${flag}" in
@@ -40,6 +42,6 @@ done
 
 set -e
 kustomize build . > dry_run
-kubectl apply -f dry_run --dry-run=client
+kubectl apply -f dry_run --dry-run=$MODE
 mv dry_run deploy.yaml
 exit 0

@@ -21,7 +21,11 @@ spec:
       - name: last-oasis
         ports:
         - containerPort: $SERVER_PORT
+          protocol: UDP
         - containerPort: $QUERY_PORT
+          protocol: UDP
+        - containerPort: $QUERY_PORT
+          protocol: TCP
         env:
         - name: SERVER_PORT
           value: "${SERVER_PORT}"
